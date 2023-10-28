@@ -1,6 +1,6 @@
 import sys
 
-from modules.Grafo import Grafo
+from modules.Grafo1 import Grafo
 
 
 class VerticeDFS:

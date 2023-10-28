@@ -1,4 +1,4 @@
-from modules.Grafo import Grafo
+from modules.Grafo1 import Grafo
 
 
 # utiliando algoritmo de Kruskal

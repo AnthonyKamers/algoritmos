@@ -1,6 +1,6 @@
 import sys
 
-from modules.Grafo import Grafo
+from modules.Grafo1 import Grafo
 
 
 class VerticeDFS:
@@ -96,7 +96,7 @@ def criar_verticesDFS(grafo):
 
 def main():
     grafo = Grafo()
-    grafo.ler("../testes/dirigidos/teste2.net")
+    grafo.ler("../testes/dirigidos/dirigido2.net")
     componentes_fort_conexas(grafo)
 
 
