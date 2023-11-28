@@ -1,10 +1,12 @@
 import sys
 
+
 class Arco:
     def __init__(self, a, b, peso):
         self.a = a
         self.b = b
         self.peso = peso
+
 
 class Vertice:
     def __init__(self, id, rotulo):
@@ -38,19 +40,32 @@ class Vertice:
 
     def haAresta(self, v):
         for aresta in self.edgesEntrada + self.edgesSaida:
-            if aresta.a == (v-1) or aresta.b == (v-1):
+            if aresta.a == (v - 1) or aresta.b == (v - 1):
                 return True
         return False
 
     def peso(self, v):
         for aresta in self.edgesSaida + self.edgesEntrada:
-            if aresta.a == (v-1) or aresta.b == (v-1):
+            if aresta.a == (v - 1) or aresta.b == (v - 1):
                 return aresta.peso
         return sys.float_info.max
+
 
 class Grafo:
     def __init__(self):
         self.grafo = []
+        self.arcos = []
+
+    def argumentos(self, vertices, arestas):
+        for id, rotulo in vertices:
+            self.grafo.append(Vertice(id, rotulo))
+
+        for aresta in arestas:
+            u, v, peso = aresta
+            arco = Arco(u - 1, v - 1, peso)
+            self.grafo[u - 1].edgeSaida(arco)
+            self.grafo[v - 1].edgeEntrada(arco)
+            self.arcos.append(arco)
 
     def ler(self, arquivo):
         file = open(arquivo, 'r')
@@ -60,7 +75,7 @@ class Grafo:
         edges = False
         qtd = 0
         for line in file:
-            line = line[0:-1] # retirar \n das linhas
+            line = line[0:-1]  # retirar \n das linhas
             aux = line
 
             if edges:
@@ -69,6 +84,7 @@ class Grafo:
 
                 self.grafo[int(aux[0]) - 1].edgeSaida(arco)
                 self.grafo[int(aux[1]) - 1].edgeEntrada(arco)
+                self.arcos.append(arco)
 
             if aux == "*edges" or aux == "*arcs":
                 reading = False
@@ -96,25 +112,19 @@ class Grafo:
         return qtd
 
     def grau(self, index):
-        return self.grafo[index-1].grau()
+        return self.grafo[index - 1].grau()
 
     def rotulo(self, index):
-        return self.grafo[index-1].rotulo
+        return self.grafo[index - 1].rotulo
 
     def vizinhos(self, index):
-        return self.grafo[index-1].vizinhos()
+        return self.grafo[index - 1].vizinhos()
 
     def vizinhosSaida(self, index):
-        return self.grafo[index-1].vizinhosSaida()
+        return self.grafo[index - 1].vizinhosSaida()
 
     def haAresta(self, u, v):
-        return self.grafo[u-1].haAresta(v)
+        return self.grafo[u - 1].haAresta(v)
 
     def peso(self, u, v):
-        return self.grafo[u-1].peso(v)
-
-# def main():
-#     grafo = Grafo("testes/arvore_geradora_minima/agm_tiny.net")
-
-# if __name__ == "__main__":
-#     main()
+        return self.grafo[u - 1].peso(v)
