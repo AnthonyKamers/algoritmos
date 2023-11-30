@@ -1,14 +1,13 @@
 from modules.ProblemaMochila import *
 
 
-# https://www.ime.unicamp.br/~mac/db/2015-1S-122181-1.pdf
 class Caminhao:
     def __init__(self, capacidade):
         self.capacidade = capacidade
         self.itens = []
 
 
-# remover elementos de listas em comum
+# remover elementos da lista a em b
 def remove_common(a, b):
     for item in a:
         if item in b:
@@ -44,8 +43,12 @@ def main():
 
         remove_common(selected, itens)
 
+    lucro_total = 0
     for caminhao, resultado in resultado_caminhoes.items():
-        print(f'Caminhão de capacidade {caminhao.capacidade} tem valor {resultado[0]}')
+        lucro_now = resultado[0]
+        lucro_total += lucro_now
+
+        print(f'Caminhão de capacidade {caminhao.capacidade} tem lucro {lucro_now}')
         print(f'Itens selecionados: ', end='')
 
         print_items(resultado[1])
@@ -53,6 +56,8 @@ def main():
 
     print('Itens restantes a serem carregados: ', end='')
     print_items(itens)
+
+    print(f'Lucro total das entregas: {lucro_total}')
 
 
 if __name__ == "__main__":

@@ -5,6 +5,7 @@ class Item:
         self.valor = valor
 
 
+# https://www.ime.unicamp.br/~mac/db/2015-1S-122181-1.pdf
 def problema_mochila(itens, capacidade):
     def cria_memorizacao():
         memoria = []
