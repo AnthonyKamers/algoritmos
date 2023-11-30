@@ -35,7 +35,7 @@ def dijkstra(grafo, vertice_origem):
     distancia[vertice_origem - 1] = 0
 
     while False in custo:
-        u = list(filter(lambda x: distancia[x.id - 1] == sys.float_info.max or custo[x.id - 1] is False, grafo.grafo))[0]
+        u = min(filter(lambda x: custo[x.id - 1] is False, grafo.grafo), key=lambda x: distancia[x.id - 1])
         distancia_u = distancia[u.id - 1]
         custo[u.id - 1] = True
 
