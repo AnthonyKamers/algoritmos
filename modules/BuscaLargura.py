@@ -9,6 +9,7 @@ class NodeTree:
         self.pai = None
 
 
+# printtar todos os nós da árvore
 def print_tree(arvore, max_nivel):
     for i in range(0, max_nivel + 1):
         line = f'{i}: '
@@ -17,6 +18,25 @@ def print_tree(arvore, max_nivel):
                 aux = item.node.id[:-1]
                 line += aux + ","
         print(line[:-1])
+
+
+# encontrar o caminho entre o nó s e o nó t
+def find_path(arvore, t):
+    aux = None
+    for item in arvore:
+        if item.node.id == str(t):
+            aux = item
+            break
+
+    if aux is None:
+        print("Este caminho não existe.")
+        return
+
+    line = [aux.node.rotulo]
+    while aux.pai is not None:
+        aux = aux.pai
+        line.insert(0, aux.node.rotulo)
+    print(*line, sep=",")
 
 
 def busca_em_largura(grafo, n):
@@ -29,7 +49,6 @@ def busca_em_largura(grafo, n):
     node_init = NodeTree(grafo.grafo[n - 1])
     fila.append(node_init)
 
-    # while da busca em largura
     while len(fila) != 0:
         u = fila.pop(0)
 
@@ -45,15 +64,16 @@ def busca_em_largura(grafo, n):
                 fila.append(node_tree)
                 max_nivel = u.nivel + 1
 
-    print_tree(arvore, max_nivel)
+    return arvore, max_nivel
 
 
 def main():
     grafo = Grafo()
     grafo.ler("../testes/arvore_geradora_minima/agm_tiny.net")
 
-    n = 1
-    busca_em_largura(grafo, n)
+    s = 1
+    arvore, max_nivel = busca_em_largura(grafo, s)
+    print_tree(arvore, max_nivel)
 
 
 if __name__ == "__main__":

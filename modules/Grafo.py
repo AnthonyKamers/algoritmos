@@ -42,11 +42,11 @@ class Grafo:
 
     def argumentos(self, vertices, arestas):
         for vertice in vertices:
-            self.grafo.append(Node(vertice, str(vertice)))
+            self.grafo.append(Node(str(vertice[0]), vertice[1]))
 
         for aresta in arestas:
-            self.grafo[aresta[0] - 1].edgeSaida(aresta[1] - 1, 1)
-            self.grafo[aresta[1] - 1].edgeEntrada(aresta[0] - 1, 1)
+            self.grafo[aresta[0] - 1].edgeSaida(aresta[1] - 1, aresta[2])
+            self.grafo[aresta[1] - 1].edgeEntrada(aresta[0] - 1, aresta[2])
 
     def ler(self, arquivo):
         file = open(arquivo, 'r')
