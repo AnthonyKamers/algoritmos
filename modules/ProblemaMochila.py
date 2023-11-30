@@ -16,32 +16,27 @@ def problema_mochila(itens, capacidade):
         return memoria
 
     M = cria_memorizacao()
+    saved = []
+
+    # resolver valor do problema da mochila e salvar itens selecionados em potenciais
     for i, item in enumerate(itens):
-        for w in range(capacidade + 1):
-            if w < item.peso:
-                M[i][w] = M[i - 1][w]
+        for j in range(capacidade + 1):
+            if (item.peso <= j) and (item.valor + M[i - 1][j - item.peso]) > M[i - 1][j]:
+                M[i][j] = item.valor + M[i - 1][j - item.peso]
+                saved.append((i, j))
             else:
-                valor_anterior = M[i - 1][w]
-                valor_item = M[i - 1][w - item.peso] + item.valor
-                M[i][w] = max(valor_anterior, valor_item)
+                M[i][j] = M[i - 1][j]
 
-    resultado = M[len(itens) - 1][capacidade]
-
-    # pegar itens selecionados
-    # https://stackoverflow.com/questions/7489398/how-to-find-which-elements-are-in-the-bag-using-knapsack-algorithm-and-not-onl?noredirect=1&lq=1
-    line = capacidade
-    i = len(itens)
+    # encontrar itens selecionados com base em estrutura salva
     selected = []
-    while i > 0:
-        item_now = itens[i - 1]
-        if M[i - 1][line] - M[i - 1][line - item_now.peso] == item_now.valor:
+    j = capacidade
+    for i in range(len(itens) - 1, -1, -1):
+        item_now = itens[i]
+        if (i, j) in saved:
             selected.append(item_now)
-            i -= 1
-            line -= item_now.peso
-        else:
-            i -= 1
+            j = j - item_now.peso
 
-    return resultado, selected
+    return M[len(itens) - 1][capacidade], selected
 
 
 def main():

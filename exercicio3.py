@@ -1,5 +1,6 @@
 from modules.ProblemaMochila import *
 
+
 # https://www.ime.unicamp.br/~mac/db/2015-1S-122181-1.pdf
 class Caminhao:
     def __init__(self, capacidade):
@@ -8,12 +9,16 @@ class Caminhao:
 
 
 # remover elementos de listas em comum
-# https://www.geeksforgeeks.org/remove-common-elements-from-two-list-in-python/
 def remove_common(a, b):
-    for i in a[:]:
-        if i in b:
-            a.remove(i)
-            b.remove(i)
+    for item in a:
+        if item in b:
+            b.remove(item)
+
+
+# formata itens para print
+def print_items(itens):
+    itens_parse = [f'({item.item} - {item.peso})' for item in itens]
+    print(*itens_parse, sep=', ')
 
 
 def main():
@@ -37,12 +42,17 @@ def main():
         resultado, selected = problema_mochila(itens, caminhao.capacidade)
         resultado_caminhoes[caminhao] = (resultado, selected)
 
-        remove_common(itens, selected)
+        remove_common(selected, itens)
 
     for caminhao, resultado in resultado_caminhoes.items():
         print(f'Caminhão de capacidade {caminhao.capacidade} tem valor {resultado[0]}')
-        print(f'Itens selecionados: {[item.item for item in resultado[1]]}')
+        print(f'Itens selecionados: ', end='')
+
+        print_items(resultado[1])
         print()
+
+    print('Itens restantes a serem carregados: ', end='')
+    print_items(itens)
 
 
 if __name__ == "__main__":
