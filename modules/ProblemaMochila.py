@@ -25,7 +25,23 @@ def problema_mochila(itens, capacidade):
                 valor_item = M[i - 1][w - item.peso] + item.valor
                 M[i][w] = max(valor_anterior, valor_item)
 
-    return M[len(itens) - 1][capacidade]
+    resultado = M[len(itens) - 1][capacidade]
+
+    # pegar itens selecionados
+    # https://stackoverflow.com/questions/7489398/how-to-find-which-elements-are-in-the-bag-using-knapsack-algorithm-and-not-onl?noredirect=1&lq=1
+    line = capacidade
+    i = len(itens)
+    selected = []
+    while i > 0:
+        item_now = itens[i - 1]
+        if M[i - 1][line] - M[i - 1][line - item_now.peso] == item_now.valor:
+            selected.append(item_now)
+            i -= 1
+            line -= item_now.peso
+        else:
+            i -= 1
+
+    return resultado, selected
 
 
 def main():
@@ -38,7 +54,7 @@ def main():
             Item(5, 2, 200),
         ]
         capacidade = 10
-        assert problema_mochila(itens, capacidade) == 700
+        assert problema_mochila(itens, capacidade)[0] == 700
 
     def teste2():
         itens = [
@@ -49,7 +65,7 @@ def main():
             Item(5, 20, 300),
         ]
         capacidade = 50
-        assert problema_mochila(itens, capacidade) == 1000
+        assert problema_mochila(itens, capacidade)[0] == 1000
 
     teste1()
     teste2()
